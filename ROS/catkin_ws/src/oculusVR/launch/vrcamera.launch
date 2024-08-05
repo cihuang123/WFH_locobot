@@ -1,0 +1,3 @@
+<launch>
+  <node name="vr_head" pkg="oculusVR" type="vrhead.py" output="screen"/>
+</launch>

@@ -1,0 +1,19 @@
+<launch>
+        <arg name="number"          default="0" />
+        <arg name="fps"             default="10" />
+
+        <param name="number"        value="$(arg number)" />
+        <param name="fps"           value="$(arg fps)" />
+
+  		<node
+   		pkg="oculusVR"
+    		type="gripper_helpper.py"
+    		name="gripper_helpper"
+    		output="screen">
+  		</node>
+
+		<include file="$(find locobot_trajectory_log)/launch/new_locobot_trajectory_log.launch" >
+        		<arg name="number" value="$(arg number)" />
+        		<arg name="fps" value="$(arg fps)" />
+		</include>
+</launch>

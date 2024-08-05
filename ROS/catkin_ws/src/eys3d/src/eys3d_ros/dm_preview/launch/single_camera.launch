@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="node_start_delay" default="1.0" />
+    <arg name="rotate" default="true" />
+
+    <!-- Stream format -->
+    <arg name="stream_mjpg" default="0" />
+    <arg name="stream_yuyv" default="1" />
+
+    <!-- depth type -->
+    <arg name="depth_raw" default="0" />
+    <arg name="depth_gray" default="1" />
+    <arg name="depth_colorful" default="2" />
+
+    <!-- vedio mode type -->
+    <!--only raw color without rectify-->
+    <arg name="raw_color" default="0" />
+    <!--rectify color and depth-->
+    <arg name="rect_color_and_depth" default="4" />
+    <!--only rectify color-->
+    <arg name="rect_color" default="5" />
+    <!--raw color and depth-->
+    <arg name="raw_color_and_depth" default="9" />
+    <!--half fps but color without IR dot-->
+    <arg name="rect_color_and_depth_interleave" default="20"/>
+    <!--half depth resolution-->
+    <arg name="rect_color_and_scale_down_depth" default="36"/>
+
+    <!-- color mode type -->
+    <arg name="color_Left" default="0" />
+    <arg name="color_Left_Right" default="1" />
+
+    <!-- For example G53 -->
+    <arg name="camera" default="camera" />
+
+    <arg name="camera_sn" default="" />
+
+    <include file="$(find dm_preview)/launch/dm_preview.launch">
+        <arg name="node_start_delay" value="$(arg node_start_delay)" />
+        <arg name="module_name" value="$(arg camera)" />
+        <arg name="tf_prefix" value="$(arg camera)" />
+        <arg name="color_mode" default="$(arg color_Left)" />
+        <arg name="dev_serial_number" value="$(arg camera_sn)" />
+        <arg name="color_width" value="640" />
+        <arg name="color_height" value="480" />
+        <arg name="depth_width" value="640" />
+        <arg name="depth_height" value="480" />
+        <arg name="framerate" default="30" />
+        <arg name="depth_type" default="$(arg depth_gray)" />
+        <arg name="video_mode_type" default="$(arg rect_color_and_depth_interleave)" />
+        <arg name="zd_tbl_index" default="1" />
+        <arg name="interleave_mode" default="true" />
+        <arg name="color_stream_format" value="$(arg stream_yuyv)" />
+        <arg name="depth_maximum_mm" value="1900" />
+        <arg name="ir_intensity" default="3" />
+        <arg name="colorful_pointcloud" value="false" />
+        <arg name="enable_depth_decimation_filter" value="false" />
+        <!--scale down depth and point cloud's density,reduce loading-->
+        <arg name="depth_decimation_filter_rate" value="2" />
+        <!--must set 2,4,8,16...-->
+    </include>
+
+    <node pkg="tf2_ros" type="static_transform_publisher" name="point_cloud_$(arg camera)_broadcaster" args="0 0 0 0 0 3.1415926536 $(arg camera)_left_base_frame $(arg camera)_left_color_frame" />
+
+    <group if="$(arg rotate)">
+        <node name="rotate_compress_image" pkg="dm_preview" type="rotate_compress_image" ns="/dm_preview/$(arg camera)" output="screen">
+            <param name="output_frame_id" value="$(arg camera)_left_base_frame"/>
+            <remap from="image" to="left/image_color"/>
+            <remap from="output_image" to="left_rotated/image_color"/>
+        </node>
+
+        <node name="rotate_compress_depth_image" pkg="dm_preview" type="rotate_compress_image" ns="/dm_preview/$(arg camera)" output="screen">
+            <param name="output_frame_id" value="$(arg camera)_left_base_frame"/>
+            <remap from="image" to="depth/image_raw"/>
+            <remap from="output_image" to="depth_rotated/image_raw"/>
+        </node>
+    </group>
+</launch>

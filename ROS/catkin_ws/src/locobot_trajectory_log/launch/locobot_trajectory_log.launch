@@ -1,0 +1,10 @@
+<launch>
+
+        <arg name="number"          default="0" />
+        <arg name="fps"             default="10" />           
+        <param name="number"        value="$(arg number)" />
+        <param name="fps"           value="$(arg fps)" />
+
+	<node name="collect_data_node" pkg="locobot_trajectory_log" type="logger.py" output="screen"/>
+
+</launch>

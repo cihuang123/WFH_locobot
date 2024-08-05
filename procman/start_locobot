@@ -1,0 +1,15 @@
+cmd "01_roscore" {
+        exec = "roscore";
+        host = "localhost";
+}
+
+cmd "02_locobot" {
+      exec = "roslaunch locobot_control main.launch use_camera:=true use_base:=true use_arm:=true";
+      host = "localhost";
+}
+
+script "start_locobot" {
+
+}
+
+

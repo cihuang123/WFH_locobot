@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+
+<launch>
+  
+  <node name="screenshot" pkg="oculusVR" type="pub_screenshot.py" output="screen">
+      <param name="veh" value="locobot60"/>
+      <param name="start_x_offset" value="0"/>
+      <param name="start_y_offset" value="120"/>
+      <param name="end_x_offset" value="0"/>
+      <param name="end__offset" value="0"/>
+   </node>
+
+  <node pkg="image_transport" type="republish" name="rviz_trajectory_cropper_compressed" 
+    args="raw in:=/window_capture out:=/window_capture_new/"/>
+  
+  <node name="bandwidth" pkg="oculusVR" type="bandwidth.py" output="screen">
+      <param name="veh" value="locobot60"/>
+      <param name="interface" value="eno1"/>
+  </node>
+
+</launch>

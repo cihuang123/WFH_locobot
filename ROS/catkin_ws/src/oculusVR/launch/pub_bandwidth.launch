@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+
+<launch>
+  
+  <node name="bandwidth" pkg="oculusVR" type="bandwidth.py" output="screen">
+      <param name="veh" value="locobot60"/>
+      <param name="interface" value="wlp58s0"/>
+  </node>
+
+</launch>

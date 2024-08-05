@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<launch>
+	<!--node pkg="tf" type="static_transform_publisher" name="side_camera" args="-0.04 -0.18 0.08 0 0 -0.383 -0.924 arm_base_link ex_side_camera_link 100" />
+	<node pkg="tf" type="static_transform_publisher" name="top_camera" args="0 0 0 0 -0.707 0 -0.707 camera_top_link ex_top_camera_link 100" /-->
+
+	<arg name="dual_camera"     default="True"/>
+
+ 	<group if="$(arg dual_camera)">
+		<include file="$(find realsense2_camera)/launch/vr_side_rs_rgbd.launch" >
+		</include>
+
+		<node
+		pkg="tf"
+		type="static_transform_publisher"
+		name="side_camera" args="-0.04 -0.18 0.08 0 0 0 1 arm_base_link ex_side_camera_link 100" >
+		</node>
+
+		<node
+   		pkg="oculusVR"
+    		type="pub_locobot_tf.py"
+    		name="pub_locobot_tf_node"
+    		output="screen">
+  		</node>
+
+	</group>
+
+
+</launch>

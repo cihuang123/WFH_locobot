@@ -1,0 +1,7 @@
+<launch>
+  <node
+    name="grasping_node"
+    pkg="task_grasping"
+    type="grasping.py"
+    output="screen" />
+</launch>

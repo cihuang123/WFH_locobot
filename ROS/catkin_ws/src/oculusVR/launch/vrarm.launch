@@ -1,0 +1,3 @@
+<launch>
+  <node name="vr_arm" pkg="oculusVR" type="vrarm.py" output="screen"/>
+</launch>

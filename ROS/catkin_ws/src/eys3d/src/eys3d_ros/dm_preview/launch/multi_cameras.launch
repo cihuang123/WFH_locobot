@@ -1,0 +1,17 @@
+<launch>
+  <include file="$(find dm_preview)/launch/single_camera.launch">
+    <arg name="camera" value="camera_left" />
+    <arg name="camera_sn" value="80362HBA300296" />
+    <arg name="node_start_delay" value="0" />
+  </include>
+  <include file="$(find dm_preview)/launch/single_camera.launch">
+    <arg name="camera" value="camera_top" />
+    <arg name="camera_sn" value="80362H97300438" />
+    <arg name="node_start_delay" value="15" />
+  </include>
+  <include file="$(find dm_preview)/launch/single_camera.launch">
+    <arg name="camera" value="camera_right" />
+    <arg name="camera_sn" value="80362H97300302" />
+    <arg name="node_start_delay" value="30" />
+  </include>
+</launch>

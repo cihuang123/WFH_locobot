@@ -1,0 +1,4 @@
+<launch>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="camera_left_trans" args="$(arg pose) base_link camera_left_link" />
+    <node pkg="oculusVR" type="get_camera_left_opitcal_frame_tf.py" name="lookup_pose" output="screen" />
+</launch>   
